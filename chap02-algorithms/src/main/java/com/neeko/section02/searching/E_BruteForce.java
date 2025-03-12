@@ -1,6 +1,8 @@
 package com.neeko.section02.searching;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 /* 완전 탐색(BruteForce) + 백트래킹 (Back Tracking)
@@ -31,12 +33,12 @@ public class E_BruteForce {
         // 순열의 개수 초기화
         count =0;
         // 깊이 0에서부터 backtrack 호출
-        backtrack(0,n);
+        backtrack(0,n, new ArrayList<>());
         return count;
     }
     /* depth : 현재까지 선택된 정수의 개수
     * n: 전체 정수 개수*/
-    private static void backtrack(int depth,int n){
+    private static void backtrack(int depth,int n, List<Integer> perm){
         if(depth == n){
             /* 모든 정수를 한 번씩 사용한 것이므로 유효한 순열 1개를 찾았다는 의미*/
             count++;
@@ -47,7 +49,9 @@ public class E_BruteForce {
         for(int i = 0 ; i < n ; i++){
             if(!visited[i]){ // 이미 선택한 정수는 건너뛰어 가지치기 한다.
                 visited[i] = true;
-                backtrack(depth+1, n);
+                perm.add(nums[i]);
+                backtrack(depth+1, n,perm);
+                perm.remove(perm.size() - 1);
                 visited[i] = false;//        백트래킹: 선택했던 정수의 사용 상태를 원상 복구시킴
 
             }
